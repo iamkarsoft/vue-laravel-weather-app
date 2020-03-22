@@ -11,8 +11,8 @@
 
 
     </head>
-    <body class="bg-blue-500">
-      <div id="app">
+    <body class="bg-blue-300" class="flex justify-center px-16">
+      <div id="app" class="px-16">
            <weather-app></weather-app>
         </div>
     </body>
