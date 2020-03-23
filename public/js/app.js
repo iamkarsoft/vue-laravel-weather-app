@@ -1955,6 +1955,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchData();
@@ -1988,11 +1990,23 @@ __webpack_require__.r(__webpack_exports__);
         _this.currentTemperature.actual = Math.round(data.currently.temperature);
         _this.currentTemperature.feels = Math.round(data.currently.apparentTemperature);
         _this.currentTemperature.summary = data.currently.summary;
-        _this.currentTemperature.icon = data.currently.icon;
+        _this.currentTemperature.icon = _this.toKebabCase(data.currently.icon);
         _this.daily = data.daily.data;
-        skycons.add('iconCurrent', 'partly-cloudy-day');
+        skycons.add('iconCurrent', _this.currentTemperature.icon);
         skycons.play();
+
+        _this.$nextTick(function () {
+          skycons.add('icon1', document.getElementById('icon1').getAttribute('data-icon'));
+          skycons.add('icon2', document.getElementById('icon2').getAttribute('data-icon'));
+          skycons.add('icon3', document.getElementById('icon3').getAttribute('data-icon'));
+          skycons.add('icon4', document.getElementById('icon4').getAttribute('data-icon'));
+          skycons.add('icon5', document.getElementById('icon5').getAttribute('data-icon'));
+          skycons.play();
+        });
       });
+    },
+    toKebabCase: function toKebabCase(stringToConvert) {
+      return stringToConvert.split(' ').join('-');
     },
     toDayOfWeek: function toDayOfWeek(timestamp) {
       var newDate = new Date(timestamp * 1000);
@@ -37439,7 +37453,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "w-4/6 flex px-4" }, [
-                      _c("div", [_vm._v("icon")]),
+                      _c("div", [
+                        _c("canvas", {
+                          attrs: {
+                            id: "icon" + (index + 1),
+                            "data-icon": _vm.toKebabCase(day.icon),
+                            width: "24",
+                            height: "24"
+                          }
+                        })
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "ml-3" }, [
                         _vm._v(_vm._s(day.summary))

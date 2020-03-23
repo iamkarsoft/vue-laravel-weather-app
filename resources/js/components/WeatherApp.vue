@@ -29,7 +29,9 @@
       >
         <div class="w-1/6 text-gray-200">{{toDayOfWeek(day.time)}}</div>
         <div class="w-4/6 flex px-4">
-          <div>icon</div>
+          <div>
+            <canvas :id="`icon${index+1}`" :data-icon="toKebabCase(day.icon)" width="24" height="24"></canvas>
+          </div>
           <div class="ml-3">{{day.summary}}</div>
         </div>
         <div class="w-1/6 text-right">
@@ -76,12 +78,24 @@
               this.currentTemperature.actual = Math.round(data.currently.temperature)
               this.currentTemperature.feels = Math.round(data.currently.apparentTemperature)
               this.currentTemperature.summary= data.currently.summary
-              this.currentTemperature.icon = data.currently.icon
+              this.currentTemperature.icon = this.toKebabCase(data.currently.icon)
               this.daily = data.daily.data
 
-              skycons.add('iconCurrent','partly-cloudy-day')
+              skycons.add('iconCurrent',this.currentTemperature.icon)
               skycons.play()
+                this.$nextTick(()=>{
+
+                  skycons.add('icon1',document.getElementById('icon1').getAttribute('data-icon'))
+                  skycons.add('icon2',document.getElementById('icon2').getAttribute('data-icon'))
+                  skycons.add('icon3',document.getElementById('icon3').getAttribute('data-icon'))
+                  skycons.add('icon4',document.getElementById('icon4').getAttribute('data-icon'))
+                  skycons.add('icon5',document.getElementById('icon5').getAttribute('data-icon'))
+                  skycons.play()
+                })
             })
+          },
+          toKebabCase(stringToConvert){
+            return stringToConvert.split(' ').join('-')
           },
           toDayOfWeek(timestamp){
             const newDate = new Date(timestamp*1000)
