@@ -1,7 +1,8 @@
 <template>
 <div class="text-white mb-8">
   <div class="places-input text-gray-800">
-    <input type="text" class="w-full " name="" id="">
+    <input type="search" id="address" class="w-full  form-control px-2 py-2 rounded appearance-none " placeholder="In which city do you live? " />
+    <p class="mt-4">Selected: <strong id="address-value">none</strong></p>
   </div>
   <div class="weather-container font-sans w-128 max-w-lg rounded-lg overflow-hidden bg-gray-900 shadow-lg mt-4">
     <div class="current-weather flex items-center justify-between px-6 py-8">
@@ -49,8 +50,40 @@
 
 <script>
     export default {
-        mounted() {
-           this.fetchData()
+      mounted() {
+        
+        this.fetchData() // fetching data
+  var placesAutocomplete = places({
+    appId: 'plSIZ7SK2697',
+    apiKey: 'f2dfe0e96d821ee349391d1b350213fd',
+    container: document.querySelector('#address'),
+  }).configure({
+    type: 'city',
+    aroundLatLngViaIP: false,
+  });
+   var $address = document.querySelector('#address-value')
+
+placesAutocomplete.on('change', (e) => {
+  console.log(e.suggestion)
+    $address.textContent = e.suggestion.value
+
+    this.location.name = `${e.suggestion.name}, ${e.suggestion.country}`
+    this.location.lat = e.suggestion.latlng.lat
+    this.location.lng = e.suggestion.latlng.lng
+  });
+
+  placesAutocomplete.on('clear', function() {
+    $address.textContent = 'none';
+  });
+  
+        },
+        watch:{
+          location:{
+            handler(newValue,oldValue){
+              this.fetchData()
+            },
+            deep: true
+          }
         },
         data(){
           return{

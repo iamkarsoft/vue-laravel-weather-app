@@ -9,6 +9,7 @@
         <!-- Fonts -->
         {{-- scripts --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.js" integrity="sha256-nCLOiEB2E5Mk++5XNR0otwdCPrAteym9WaDVgKhtrE0=" crossorigin="anonymous" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.1" defer></script>
         <script src="/js/app.js" defer></script>
 
 
